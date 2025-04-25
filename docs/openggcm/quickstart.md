@@ -45,9 +45,10 @@ Create an environment for OpenGGCM:
 
 ```sh
 conda create -n ggcm
+conda activate ggcm
 
 conda install openmpi-mpifort
-conda install "adios2=*=mpi_openmpi_*"
+conda install -c conda-roge "adios2=*=mpi_openmpi_*"
 conda install cmake
 conda install hdf5
 conda install jupyter

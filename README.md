@@ -29,34 +29,83 @@
 
 <!-- SPHINX-START -->
 
-The ggcmpy package aims to be the place to collect various OpenGGCM related
-tools.
+The `ggcmpy` package provides Python utilities designed to work with the
+OpenGGCM (Open Geospace General Circulation Model) data, facilitating data
+analysis and interaction.
 
-- Support for reading OpenGGCM data files as Xarray datasets.
+## Features
 
-  Xarray is essentially an extension of numpy arrays, adding additional
-  information like dimension names and coordinates, and making many data
-  analysis tasks much easier. This package allows to read OpenGGCM binary files
-  (`.iof`, `.3df`, `.p[xyz]_N`) simply by `ds = xr.open_dataset(filename)`.
+- **Effortless Data Handling with Xarray:** Read OpenGGCM binary files (`.iof`, `.3df`, `.p[xyz]_N`) directly into [Xarray datasets](https://xarray.dev) using `xr.open_dataset(filename)`. Xarray enhances numpy arrays with labeled dimensions and coordinates, simplifying data analysis.
+- **OpenGGCM-Specific Xarray Extensions:** Access specialized coordinates like `mlts` (magnetic local times) and `colats` (colatitudes) in addition to standard `longs` and `lats`.
+- **Support for Modern Data Formats:**
+    - Read OpenGGCM XDMF/HDF5 data using the [xarray-pschdf5](https://github.com/psc-code/xarray-pschdf5) package.
+    - Read OpenGGCM ADIOS2 data using the [xarray-adios2](https://github.com/unh-hpc/xarray-adios2) package.
 
-- OpenGGCM-specific Xarray extensions
+## Getting Started
 
-  - for now, this is limited to providing the `mlts` and `colats` coordinates in
-    addition to the standard `longs`, `lats`.
+### Installation
 
-- (TBD): OpenGGCM specific plotting support
+The recommended way to install `ggcmpy` is using pip:
 
-- (TBD): Setting up an OpenGGCM run
+```bash
+pip install ggcmpy
+```
 
-  - Generating a runme
-  - Generating a non-uniform grid
-  - Preparing event solar wind data
+### Basic Usage: Reading Data
 
-- (external): Support for reading OpenGGCM XDMF/HDF5 data is available through
-  [xarray-pschdf5](https://github.com/psc-code/xarray-pschdf5)
+Here's a quick example of how to open an OpenGGCM data file using `ggcmpy` and `xarray`:
 
-- (external): Support for reading OpenGGCM ADIOS2 data is available through
-  [xarray-adios2](https://github.com/unh-hpc/xarray-adios2)
+```python
+import xarray as xr
+# Import ggcmpy to access sample data or specific utilities if needed.
+# If you are using your own data files, ggcmpy might only be needed
+# for its Xarray backend registration, which happens automatically on import.
+import ggcmpy 
 
-Needless to say, there is a lot of work the remains to be done, feedback /
-requests and help are always appreciated!
+# Example using a placeholder for your data file path:
+# actual_file_path = "path/to/your/openggcm_data.3df.001200"
+
+# Or, to use sample data provided with ggcmpy (if available and you know the path):
+# from ggcmpy import sample_dir
+# actual_file_path = sample_dir / "sample_jrrle.py_0.001200"
+
+# For this example, let's define a placeholder. 
+# Replace this with the actual path to your data.
+actual_file_path = "path/to/your_openggcm_file.3df" 
+
+try:
+    # Open the dataset using xarray
+    ds = xr.open_dataset(actual_file_path)
+    print("Successfully opened dataset:")
+    print(ds)
+except FileNotFoundError:
+    print(f"Error: Data file not found at '{actual_file_path}'.")
+    print("Please ensure the path is correct or use ggcmpy's sample data if available.")
+except Exception as e:
+    print(f"An error occurred: {e}")
+
+```
+
+### Documentation
+
+For more detailed information, including advanced usage and troubleshooting, please see the full [Getting Started Guide](./docs/getting-started-guide/index.md).
+
+## Contributing
+
+Contributions are welcome! We appreciate any help to improve and expand `ggcmpy`. We value all sorts of contributions, from bug reports and documentation improvements to new features.
+
+Please see our [Contributing Guide](./.github/CONTRIBUTING.md) for more details on how to get started, report issues, and make contributions.
+
+## License
+
+This project is licensed under the Apache License 2.0. See the [LICENSE](./LICENSE) file for details.
+
+## Future Enhancements
+
+The following are planned enhancements for `ggcmpy`:
+
+- Advanced OpenGGCM-specific plotting utilities (basic 2D and 3D data visualization is available via Xarray's built-in plotting capabilities).
+- Tools to assist with setting up OpenGGCM runs, such as:
+    - Generating/modifying `runme` configuration files.
+    - Helper utilities for creating non-uniform grids.
+    - Tools for preparing solar wind event data.
